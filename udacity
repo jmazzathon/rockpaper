@@ -41,8 +41,13 @@ class HumanPlayer(Player):
 
 class ReflectPlayer(Player):
     def move(self):
-        return their_move
-        print("Got here!")
+        if self.their_move == " ":
+            return (moves[random.randint(0,2)])
+        else:
+            return self.their_move
+#        else:
+#            return their_move
+
 #        return (moves[random.randint(0,2)])
 #        else:
 #            return their_move
@@ -89,6 +94,7 @@ class Game:
         self.score1 = 0
         self.score2 = 0
         print("Game start!")
+        self.round = 0
         number_rounds = int(input("How many rounds would you like to play? "))
         for round in range(number_rounds):
             print(f"Round {round+1}:")
@@ -98,5 +104,5 @@ class Game:
 
 
 if __name__ == '__main__':
-    game = Game(Player(), Player())
+    game = Game(HumanPlayer(), ReflectPlayer())
     game.play_game()
