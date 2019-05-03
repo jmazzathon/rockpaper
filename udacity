@@ -1,0 +1,102 @@
+#!/usr/bin/env python3
+
+"""This program plays a game of Rock, Paper, Scissors between two Players,
+and reports both Player's scores each round."""
+
+import random
+
+moves = ['rock', 'paper', 'scissors']
+
+"""The Player class is the parent class for all of the Players
+in this game"""
+
+def valid_input(prompt, option1, option2, option3):
+    while True:
+        response = input(prompt).lower()
+        if option1 == response:
+            break
+        elif option2 == response:
+            break
+        elif option3 == response:
+            break
+        else:
+            print("Sorry, I don't understand.")
+    return response
+
+class Player:
+    def move(self):
+        return 'rock'
+
+    def learn(self, my_move, their_move):
+        self.my_move = my_move
+        self.their_move = their_move
+#        print(f"my move is {self.my_move} their move is {self.their_move}")
+
+class HumanPlayer(Player):
+    def move(self):
+        response = valid_input("Throw rock, paper or scissors?",
+                               "rock", "paper", "scissors")
+        return response
+
+
+class ReflectPlayer(Player):
+    def move(self):
+        return their_move
+        print("Got here!")
+#        return (moves[random.randint(0,2)])
+#        else:
+#            return their_move
+
+class RandomPlayer(Player):
+    def move(self):
+        return (moves[random.randint(0,2)])
+
+
+def beats(one, two):
+    return ((one == 'rock' and two == 'scissors') or
+            (one == 'scissors' and two == 'paper') or
+            (one == 'paper' and two == 'rock'))
+
+
+class Game:
+    def __init__(self, p1, p2):
+        self.p1 = p1
+        self.p2 = p2
+
+
+    def play_round(self):
+        move1 = self.p1.move()
+        move2 = self.p2.move()
+        print(f"Player 1 threw {move1} and Player 2 threw {move2}.")
+        if move1 == move2:
+            print(f"Both players threw {move1}. It's a TIE.")
+            print(f"Score is {self.score1} to {self.score2}")
+        else:
+            if beats(move1, move2) == True:
+                print("Player 1 wins this round.")
+                self.score1 += 1
+            else:
+                print("Player 2 wins this round.")
+                self.score2 += 1
+            print(f"Score is {self.score1} to {self.score2}")
+#            print(f"my move is {self.my_move} their move is {self.their_move}")
+        self.p1.learn(move1, move2)
+        self.p2.learn(move2, move1)
+#       print("That worked")
+
+
+    def play_game(self):
+        self.score1 = 0
+        self.score2 = 0
+        print("Game start!")
+        number_rounds = int(input("How many rounds would you like to play? "))
+        for round in range(number_rounds):
+            print(f"Round {round+1}:")
+            self.round = round
+            self.play_round()
+        print("Game over!")
+
+
+if __name__ == '__main__':
+    game = Game(Player(), Player())
+    game.play_game()
